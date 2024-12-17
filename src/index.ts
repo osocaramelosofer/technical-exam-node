@@ -1,12 +1,12 @@
 import express, { Request, Response } from 'express';
+import { createApp } from './config/express';
 
-const app = express();
+const app = createApp();
 const port = process.env.PORT || 3000;
 
-app.use(express.json());
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello, TypeScript with Express!');
+  res.send('Hello, TypeScript with Express!!');
 });
 
 app.listen(port, () => {
