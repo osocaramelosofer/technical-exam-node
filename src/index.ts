@@ -1,6 +1,7 @@
-import express, { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { createApp } from './config/express';
 import { mongoClient } from './config/mongodb';
+import { userRouter } from './modules/users/route';
 
 const app = createApp();
 const port = process.env.PORT || 3000;
@@ -21,6 +22,8 @@ app.get('/mongo', async (req:Request , res:Response) => {
         await mongoClient.close();
       }
 })
+
+app.use('/api/v1/users',userRouter)
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
