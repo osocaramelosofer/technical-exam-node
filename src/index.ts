@@ -1,30 +1,26 @@
 import { Request, Response } from 'express';
 import { createApp } from './config/express';
-import { mongoClient } from './config/mongodb';
+import { connectToDatabase } from './config/mongodb';
 import { userRouter } from './modules/users/route';
 
 const app = createApp();
 const port = process.env.PORT || 3000;
 
+const startServer = async () => {
+  try {
+    await connectToDatabase()
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello, TypeScript with Express!!');
-});
-app.get('/mongo', async (req:Request , res:Response) => {
-    try {
-        // Connect the client to the server	(optional starting in v4.7)
-        await mongoClient.connect();
-        // Send a ping to confirm a successful connection
-        await mongoClient.db("admin").command({ ping: 1 });
-        res.send('You successfully connected to MongoDB!')
-      } finally {
-        // Ensures that the client will close when you finish/error
-        await mongoClient.close();
-      }
-})
+    app.get('/', (req: Request, res: Response) => {
+      res.send('Hello, TypeScript with Express!!');
+    });
+    app.use('/api/v1/users',userRouter)
+    
+    app.listen(port, () => {
+      console.log(`Server is running at http://localhost:${port}`);
+    });
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-app.use('/api/v1/users',userRouter)
-
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+startServer()
