@@ -8,6 +8,7 @@ export const userService = {
             console.log(query)
             return query
         } catch (error) {
+            console.error(error)
             return null
         }
     },
@@ -25,5 +26,13 @@ export const userService = {
             console.error(error)
             return null
         }
-    }
+    },
+    get: async(userId: string):Promise< UserInterface | null> => {
+        try {
+            // const query = User.findById()
+            return null
+        } catch (error) {
+            return null
+        }
+    } 
 }
