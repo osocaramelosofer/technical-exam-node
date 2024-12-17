@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 import User, { UserInterface } from "../../models/User"
+import bcrypt from 'bcrypt'
 
 export const userService = {
     list: async():Promise< UserInterface[] | null> => {
         try {
-            const query = await User.find({});
-            console.log(query)
+            const query = await User.find({},"name email _id");
+
             return query
         } catch (error) {
             console.error(error)
@@ -15,10 +16,9 @@ export const userService = {
     create: async({name, email, password}: Pick<UserInterface,'name'|'email'|'password'>):Promise< UserInterface | null> =>{
         try {
             const newUser = new User({
-                id: new mongoose.Types.ObjectId().toString(),
                 name,
                 email,
-                password,
+                password: bcrypt.hashSync(password, 10),
               });
               await newUser.save()
               return newUser
@@ -29,10 +29,10 @@ export const userService = {
     },
     get: async(userId: string):Promise< UserInterface | null> => {
         try {
-            // const query = User.findById()
-            return null
+            const query = await User.findById(userId,"name email _id").exec()
+            return query
         } catch (error) {
             return null
         }
-    } 
+    }
 }

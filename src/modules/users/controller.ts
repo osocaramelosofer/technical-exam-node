@@ -26,7 +26,9 @@ export async function createUser(req:Request, res:Response){
 }
 export async function getUser(req:Request, res:Response){
     try {
-        
+        const { id } = req.query
+        const userDetail = await userService.get(id as string)
+        res.status(200).json({data: userDetail})
     } catch (error) {
         
     }
