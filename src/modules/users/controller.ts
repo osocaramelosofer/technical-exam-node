@@ -3,8 +3,8 @@ import { userService } from './service'
 
 export async function listUsers(req:Request, res:Response){
     try {
-        
-        res.status(200).json({ data: "hello" })
+        const usersData = await userService.list()
+        res.status(200).json({ data: usersData })
     } catch (error) {
         
     }

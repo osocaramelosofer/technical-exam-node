@@ -2,6 +2,15 @@ import mongoose from "mongoose";
 import User, { UserInterface } from "../../models/User"
 
 export const userService = {
+    list: async():Promise< UserInterface[] | null> => {
+        try {
+            const query = await User.find({});
+            console.log(query)
+            return query
+        } catch (error) {
+            return null
+        }
+    },
     create: async({name, email, password}: Pick<UserInterface,'name'|'email'|'password'>):Promise< UserInterface | null> =>{
         try {
             const newUser = new User({
