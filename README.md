@@ -59,16 +59,4 @@ Start the server
   pnpm run dev
 ```
 
-## Usage/Examples
-
-```javascript
-import Component from "my-project";
-
-function App() {
-  return <Component />;
-}
-```
-
-## Tech Stack
-
 **Server:** Node, Express, Mongodb + mongoose
