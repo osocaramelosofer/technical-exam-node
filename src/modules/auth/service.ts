@@ -1,12 +1,8 @@
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import User from '../../models/User'
-import dotenv from 'dotenv'
+import { generateToken } from '../../lib/helpers';
 
-dotenv.config()
-const SECRET_KEY = process.env.JWT_SECRET_KEY || ''
 
-const TOKEN_EXPIRATION = "1h"
 
 export const authService = {
   login: async({email, password} : { email: string, password: string}):Promise<any> => {
@@ -20,11 +16,13 @@ export const authService = {
       const isMatch = bcrypt.compareSync(password, foundUser.password);
   
       if (isMatch) {
-        const token = jwt.sign({ _id: foundUser._id?.toString(), name: foundUser.name }, SECRET_KEY, {
-          expiresIn: '2 days',
-        });
+        // HERE replace the jwt.sign with a method
+        // const token = jwt.sign({ _id: foundUser._id?.toString(), name: foundUser.name }, SECRET_KEY, {
+        //   expiresIn: '2 days',
+        // });
+        const token = generateToken(foundUser)
    
-        return { user: { ...foundUser}, token: token };
+        return { token: token };
       } else {
         throw new Error('Password is not correct');
       }
@@ -34,10 +32,4 @@ export const authService = {
   }
 }
 
-// export const generateToken = (user: UserInterface): string => {
-//   return jwt.sign(
-//     { id: user._id, email: user.email },
-//     SECRET_KEY,
-//     { expiresIn: TOKEN_EXPIRATION }
-//   );
-// };
+

@@ -1,11 +1,5 @@
 import { Request, Response } from 'express'
 import { authService } from './service'
-import  { Secret } from 'jsonwebtoken';
-import dotenv from 'dotenv'
-
-dotenv.config()
-
-export const SECRET_KEY: Secret = process.env.JWT_SECRET_KEY || ""
 
 
 export async function login(req: Request, res: Response): Promise<any> {
