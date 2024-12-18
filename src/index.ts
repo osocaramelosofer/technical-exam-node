@@ -3,6 +3,8 @@ import { createApp } from './config/express';
 import { connectToDatabase } from './config/mongodb';
 import { userRouter } from './modules/users/route';
 import authRouter from './modules/auth/route';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../swagger.json';
 
 const app = createApp();
 const port = process.env.PORT || 3000;
