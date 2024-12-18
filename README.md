@@ -1,62 +1,230 @@
-# Examen tecnico node
+# Examen Técnico - Node.js Backend API
 
-Este examen tecnico echo con node, express, y mongoose realiza un Resful api para resolver el examen tecnico para el puesto de full stack developer, enfocado en el back-end con node.js
+Este proyecto implementa una **API RESTful** utilizando **Node.js**, **Express** y **Mongoose** para gestionar usuarios, como parte de un examen técnico para el puesto de **Full Stack Developer**. El objetivo es demostrar el manejo de tecnologías como **Node.js**, **Express**, **MongoDB** y la arquitectura de aplicaciones backend.
 
-La aplicacion pretende demostrar los conocimientos en tecnologias como node, express, mongodb y la arquitectura/experiencia que el candidato tiene en el stack mencionado.
+## Descripción
 
-## Authors
+El examen consiste en crear una API que permita gestionar un listado de usuarios con las siguientes operaciones CRUD (Crear, Leer, Actualizar, Eliminar):
 
-- [@elferras](https://github.com/osocaramelosofer)
+- **Crear un usuario**
+- **Listar usuarios (paginado)**
+- **Obtener un usuario específico por su ID**
+- **Actualizar un usuario existente (nombre y correo)**
+- **Eliminar un usuario**
 
-## Documentacion
+Además, se implementa **autenticación JWT** para acceder a los endpoints, y se utiliza **MongoDB** para almacenar los datos de los usuarios.
 
-## Variables de Entorno
+## Funcionalidades
 
-To run this project, you will need to add the following environment variables to your .env file
+- **Crear un nuevo usuario** (POST /users)
+- **Listar usuarios** con paginación (GET /users)
+- **Obtener un usuario por su ID** (GET /users/:id)
+- **Actualizar un usuario** (PUT /users/:id)
+- **Eliminar un usuario** (DELETE /users/:id)
+- **Autenticación JWT** para acceso a los servicios
 
-`JWT_SECRET_KEY`
+## Instalación
 
-`MONGO_CONNECTION_STRING`
+### Requisitos
 
-## Features
+- **Node.js v18+**
+- **pnpm** como gestor de paquetes
 
-- Crear un nuevo usuario
-- Listar usuarios
-- Obtener un usuario especifico por su id
-- Actualizar el nombre y correo de un usuario existente
-- Eliminar un usuario por su id
-- Generar un jwt para acceder al CRUD
+### Pasos para instalar y correr el proyecto
 
-## Instalacion
+1. **Clona el repositorio**
 
-Asegurate de tener la version de node v18
+   ```bash
+   git clone https://github.com/osocaramelosofer/technical-exam-node
+   ```
 
-Instala el proyecto con pnpm
+2. **Accede al directorio del proyecto**
 
-## Run Locally
+   ```bash
+   cd technical-exam-node
+   ```
 
-Clone the project
+3. **Instala las dependencias**
 
-```bash
-  git clone https://github.com/osocaramelosofer/technical-exam-node
+   Asegúrate de tener **pnpm** instalado, si no, instálalo con:
+
+   ```bash
+   npm install -g pnpm
+   ```
+
+   Luego, instala las dependencias del proyecto:
+
+   ```bash
+   pnpm install
+   ```
+
+4. **Configura las variables de entorno**
+
+   Crea un archivo `.env` en el directorio raíz del proyecto y agrega las siguientes variables:
+
+   ```env
+   JWT_SECRET_KEY=<tu_secreto_jwt>
+   MONGO_CONNECTION_STRING=<tu_cadena_de_conexion_mongo>
+   ```
+
+5. **Inicia el servidor en modo desarrollo**
+
+   ```bash
+   pnpm run dev
+   ```
+
+   El servidor estará corriendo en `http://localhost:3000`.
+
+## Endpoints
+
+### 1. **Crear un nuevo usuario**
+
+- **Método**: `POST`
+- **Ruta**: `/users`
+- **Cuerpo de la solicitud**:
+  ```json
+  {
+    "name": "nombre del usuario",
+    "email": "correo@ejemplo.com",
+    "password": "contraseña"
+  }
+  ```
+- **Respuesta exitosa**:
+  ```json
+  {
+    "success": true,
+    "message": "Usuario creado exitosamente",
+    "data": {
+      "_id": "id_del_usuario",
+      "name": "nombre",
+      "email": "correo@ejemplo.com",
+      "password": "contraseña_encriptada",
+      "__v": 0
+    }
+  }
+  ```
+- **Respuesta de error**:
+  ```json
+  {
+    "error": {
+      "message": "Error al crear el usuario",
+      "code": "400"
+    }
+  }
+  ```
+
+### 2. **Listar usuarios (paginado)**
+
+- **Método**: `GET`
+- **Ruta**: `/users?page=0&limit=10`
+- **Parámetros**:
+  - `page`: Número de página (paginación)
+  - `limit`: Número máximo de usuarios por página
+- **Respuesta exitosa**:
+  ```json
+  {
+    "success": true,
+    "data": [
+      {
+        "_id": "id_del_usuario_1",
+        "name": "nombre1",
+        "email": "correo@ejemplo.com",
+        "password": "contraseña_encriptada",
+        "__v": 0
+      },
+      {
+        "_id": "id_del_usuario_2",
+        "name": "nombre2",
+        "email": "correo@ejemplo.com",
+        "password": "contraseña_encriptada",
+        "__v": 0
+      }
+    ],
+    "page": 1,
+    "limit": 10,
+    "total": 100
+  }
+  ```
+
+### 3. **Obtener un usuario por su ID**
+
+- **Método**: `GET`
+- **Ruta**: `/users/:id`
+- **Parámetros**:
+  - `id`: ID del usuario a obtener
+- **Respuesta exitosa**:
+  ```json
+  {
+    "success": true,
+    "data": {
+      "_id": "id_del_usuario",
+      "name": "nombre",
+      "email": "correo@ejemplo.com",
+      "password": "contraseña_encriptada",
+      "__v": 0
+    }
+  }
+  ```
+
+### 4. **Actualizar un usuario**
+
+- **Método**: `PUT`
+- **Ruta**: `/users/:id`
+- **Cuerpo de la solicitud**:
+  ```json
+  {
+    "name": "nuevo_nombre",
+    "email": "nuevo_email@ejemplo.com"
+  }
+  ```
+- **Respuesta exitosa**:
+  ```json
+  {
+    "success": true,
+    "message": "Usuario actualizado exitosamente",
+    "data": {
+      "_id": "id_del_usuario",
+      "name": "nuevo_nombre",
+      "email": "nuevo_email@ejemplo.com",
+      "password": "contraseña_encriptada",
+      "__v": 0
+    }
+  }
+  ```
+
+### 5. **Eliminar un usuario**
+
+- **Método**: `DELETE`
+- **Ruta**: `/users/:id`
+- **Parámetros**:
+  - `id`: ID del usuario a eliminar
+- **Respuesta exitosa**:
+  ```json
+  {
+    "success": true,
+    "message": "Usuario eliminado exitosamente",
+    "data": {
+      "_id": "id_del_usuario",
+      "name": "nombre",
+      "email": "correo@ejemplo.com",
+      "password": "contraseña_encriptada",
+      "__v": 0
+    }
+  }
+  ```
+
+## Seguridad
+
+El acceso a todos los endpoints está protegido por un **JWT**. Se debe incluir el token en los encabezados de la solicitud de la siguiente manera:
+
+```http
+Authorization: Bearer <tu_token_jwt>
 ```
 
-Go to the project directory
+## Tests
 
-```bash
-  cd technical-exam-node
-```
+Si deseas ejecutar pruebas, puedes configurar un entorno de pruebas y utilizar herramientas como **Jest** o **Mocha** para testear los endpoints y la lógica del backend.
 
-Install dependencies
+## Contribuciones
 
-```bash
-  pnpm install
-```
-
-Start the server
-
-```bash
-  pnpm run dev
-```
-
-**Server:** Node, Express, Mongodb + mongoose
+Si deseas contribuir a este proyecto, por favor realiza un **fork** y crea un **pull request** con las mejoras. Asegúrate de seguir las mejores prácticas de desarrollo y de documentar los cambios realizados.
