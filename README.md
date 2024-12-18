@@ -73,10 +73,20 @@ Además, se implementa **autenticación JWT** para acceder a los endpoints, y se
    pnpm run dev
    ```
 
-   El servidor estará corriendo en `http://localhost:3000`.
-   Se uso swagger ui para documentar la API, puedes acceder a http://localhost:3000/api-docs/ para probarla.
-   De igual manera si quieres alguna otra herramienta para probar la API como postman, puedes hacerlo solo ten en cuenta que la url base es:
-   http://localhost:3000/api/v1/
+El servidor estará corriendo en:  
+`http://localhost:3000`
+
+### Documentación de la API
+
+La API está documentada utilizando **Swagger UI**. Puedes acceder a la documentación y probar los endpoints directamente desde el siguiente enlace:
+
+[Acceder a Swagger UI](http://localhost:3000/api-docs/)
+
+### Probar la API con otras herramientas
+
+Si prefieres usar herramientas como **Postman** para probar la API, ten en cuenta que la URL base de la API es:
+
+`http://localhost:3000/api/v1/`
 
 ## Cómo usar la API
 
