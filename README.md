@@ -16,11 +16,11 @@ Además, se implementa **autenticación JWT** para acceder a los endpoints, y se
 
 ## Funcionalidades
 
-- **Crear un nuevo usuario** (POST /users)
-- **Listar usuarios** con paginación (GET /users)
-- **Obtener un usuario por su ID** (GET /users/:id)
-- **Actualizar un usuario** (PUT /users/:id)
-- **Eliminar un usuario** (DELETE /users/:id)
+- **Crear un nuevo usuario** (POST)
+- **Listar usuarios** con paginación (GET)
+- **Obtener un usuario por su ID** (GET)
+- **Actualizar un usuario** (PUT)
+- **Eliminar un usuario** (DELETE)
 - **Autenticación JWT** para acceso a los servicios
 
 ## Instalación
