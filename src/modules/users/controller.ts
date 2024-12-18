@@ -3,7 +3,10 @@ import { userService } from './service'
 
 export async function listUsers(req:Request, res:Response){
     try {
-        const usersData = await userService.list()
+        const page = Number(req.query.page) || 0
+        const limit = Number(req.query.limit) || 3
+
+        const usersData = await userService.list({page,limit})
         res.status(200).json({ data: usersData })
     } catch (error) {
         

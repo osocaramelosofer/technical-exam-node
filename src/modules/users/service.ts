@@ -3,9 +3,13 @@ import User, { UserInterface } from "../../models/User"
 import bcrypt from 'bcrypt'
 
 export const userService = {
-    list: async():Promise<UserInterface[] | null> => {
+    list: async({page, limit} : {page: number, limit:number}):Promise<UserInterface[] | null> => {
         try {
-            const query = await User.find({},"name email _id").exec();
+            const query = await User.find({})
+            .skip(page * limit)
+            .limit(limit)
+            .select({name: 1,email:1, _id:1})
+            .exec();
 
             return query
         } catch (error) {
