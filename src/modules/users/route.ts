@@ -3,9 +3,8 @@ import { listUsers, createUser, getUser, deleteUser, updateUser} from "./control
 import { auth } from "../../middleware/auth"
 
 export const userRouter = Router()
-userRouter.use(auth)
-userRouter.get('', listUsers)
-userRouter.post('',createUser )
-userRouter.get('/', getUser)
-userRouter.delete('/', deleteUser)
-userRouter.put('/', updateUser)
+userRouter.get('',auth, listUsers)
+userRouter.post('', createUser )
+userRouter.get('/user', auth,getUser)
+userRouter.delete('/',auth, deleteUser)
+userRouter.put('/',auth, updateUser)
