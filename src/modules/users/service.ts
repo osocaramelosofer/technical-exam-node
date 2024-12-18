@@ -22,8 +22,8 @@ export const userService = {
             const newUser = new User({
                 name,
                 email,
-                password: bcrypt.hashSync(password, 10),
-              });
+                password,
+              })
               await newUser.save()
               return newUser
         } catch (error) {

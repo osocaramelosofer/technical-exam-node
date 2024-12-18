@@ -1,4 +1,6 @@
-import mongoose, {Document} from 'mongoose';
+import mongoose, {Document} from 'mongoose'
+import bcrypt from 'bcrypt'
+
 const { Schema, model } = mongoose;
 
 export interface UserInterface extends Document {
@@ -21,7 +23,14 @@ const userSchema = new Schema<UserInterface>({
     type: String,
     required: true
   }
-});
+})
+userSchema.pre('save',async function (next) {
+  const user = this;
+  if (user.isModified('password')) {
+    user.password = await bcrypt.hash(user.password, 8)
+  }
+  next()
+})
 
-const User = model<UserInterface>('User', userSchema);
-export default User;
+const User = model<UserInterface>('User', userSchema)
+export default User
