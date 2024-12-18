@@ -15,7 +15,7 @@ const startServer = async () => {
       res.send('Hello!');
     });
 
-
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     app.use('/api/v1/users', userRouter)
     app.use('/api/v1/auth', authRouter)
     
