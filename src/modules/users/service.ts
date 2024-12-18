@@ -3,7 +3,7 @@ import User, { UserInterface } from "../../models/User"
 import bcrypt from 'bcrypt'
 
 export const userService = {
-    list: async():Promise< UserInterface[] | null> => {
+    list: async():Promise<UserInterface[] | null> => {
         try {
             const query = await User.find({},"name email _id").exec();
 
@@ -27,7 +27,7 @@ export const userService = {
             return null
         }
     },
-    get: async(id: string):Promise< UserInterface | null> => {
+    get: async(id: string):Promise<UserInterface | null> => {
         try {
             const query = await User.findById(id,"name email _id").exec()
             return query
@@ -35,7 +35,7 @@ export const userService = {
             return null
         }
     },
-    delete: async(id:string):Promise< UserInterface | null> => {
+    delete: async(id:string):Promise<UserInterface | null> => {
         try {
             // check if id is a valid ObjectId
             if(!mongoose.isValidObjectId(id)){
