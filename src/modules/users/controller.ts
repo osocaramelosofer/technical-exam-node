@@ -46,7 +46,14 @@ export async function deleteUser(req:Request, res:Response){
     try {
         const { id } = req.query
         const deletedUser = await userService.delete(id as string)
-        res.status(200).json({data: deletedUser})
+        if(!deletedUser){
+            res.status(404).json({
+                success: false,
+                message: 'User not found',
+            })
+        } else {
+            res.status(200).json({succes: true, message: 'User deleted successfully',data: deletedUser })
+        }
     } catch (error) {
         res.status(500).json({
             error:{
@@ -65,7 +72,7 @@ export async function updateUser(req:Request, res:Response){
             res.status(404).json({
                 success: false,
                 message: 'User not found',
-            });
+            })
         }else {
             res.status(200).json({
                 success: true,

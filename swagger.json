@@ -197,8 +197,81 @@
                 "description": "Internal server error"
               }
             }
-          }
-        
+        },
+        "delete": {
+            "summary": "Delete a specific user",
+            "description": "Deletes a user from the database by ID.",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "query",
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "example": "6762f921a7c3a88ef47d0267"
+                },
+                "description": "The ID of the user to delete."
+              }
+            ],
+            "security": [
+              {
+                "BearerAuth": []
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "User deleted successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "User deleted successfully"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "6762f921a7c3a88ef47d0267"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "user6"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "user6@hotmail.com"
+                            },
+                            "password": {
+                              "type": "string",
+                              "example": "$2b$08$gRpIMjNCiE8FrwCGlCZauuVPCMpxhppF/.FSPOkSdSyprLxDs.8xW"
+                            },
+                            "__v": {
+                              "type": "integer",
+                              "example": 0
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "User not found"
+              },
+              "500": {
+                "description": "Internal server error"
+              }
+            }
+        }
       },
      "/api/v1/users/user": {
       "get": {

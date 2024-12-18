@@ -46,7 +46,7 @@ export const userService = {
                 return null
             }
 
-            const deletedUser = await User.findByIdAndDelete('id').exec()
+            const deletedUser = await User.findByIdAndDelete(id).exec()
             // user not found
             if(!deletedUser){
                 return null
