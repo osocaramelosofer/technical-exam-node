@@ -1,64 +1,82 @@
-# Examen Tecnico Node
+# Examen Técnico - Node.js Backend API
 
-Este examen técnico hecho con Node, Express y Mongoose realiza una API RESTful para resolver el examen técnico para el puesto de Full Stack Developer, enfocado en el back-end con Node.js.
+Este proyecto implementa una **API RESTful** utilizando **Node.js**, **Express** y **Mongoose** para gestionar usuarios, como parte de un examen técnico para el puesto de **Full Stack Developer**. El objetivo es demostrar el manejo de tecnologías como **Node.js**, **Express**, **MongoDB** y la arquitectura de aplicaciones backend.
 
-La aplicación pretende demostrar los conocimientos en tecnologías como Node, Express, MongoDB y la arquitectura/experiencia que el candidato tiene en el stack mencionado.
+## Descripción
 
-## Authors
+El examen consiste en crear una API que permita gestionar un listado de usuarios con las siguientes operaciones CRUD (Crear, Leer, Actualizar, Eliminar):
 
-- [@elferras](https://github.com/osocaramelosofer)
+- **Crear un usuario**
+- **Listar usuarios (paginado)**
+- **Obtener un usuario específico por su ID**
+- **Actualizar un usuario existente (nombre y correo)**
+- **Eliminar un usuario**
 
-## Documentación
+Además, se implementa **autenticación JWT** para acceder a los endpoints, y se utiliza **MongoDB** para almacenar los datos de los usuarios.
 
-### Variables de Entorno
+## Funcionalidades
 
-Para ejecutar este proyecto, deberás agregar las siguientes variables de entorno a tu archivo .env:
+- **Crear un nuevo usuario** (POST /users)
+- **Listar usuarios** con paginación (GET /users)
+- **Obtener un usuario por su ID** (GET /users/:id)
+- **Actualizar un usuario** (PUT /users/:id)
+- **Eliminar un usuario** (DELETE /users/:id)
+- **Autenticación JWT** para acceso a los servicios
 
-- `JWT_SECRET_KEY`
-- `MONGO_CONNECTION_STRING`
+## Instalación
 
-### Features
+### Requisitos
 
-- Crear un nuevo usuario
-- Listar usuarios
-- Obtener un usuario específico por su ID
-- Actualizar el nombre y correo de un usuario existente
-- Eliminar un usuario por su ID
-- Generar un JWT para acceder al CRUD
+- **Node.js v18+**
+- **pnpm** como gestor de paquetes
 
-### Instalación
+### Pasos para instalar y correr el proyecto
 
-Asegúrate de tener la versión de Node `v18`.
+1. **Clona el repositorio**
 
-Instala el proyecto con pnpm.
+   ```bash
+   git clone https://github.com/osocaramelosofer/technical-exam-node
+   ```
 
-### Run Locally
+2. **Accede al directorio del proyecto**
 
-Clona el proyecto:
+   ```bash
+   cd technical-exam-node
+   ```
 
-```bash
-  git clone https://github.com/osocaramelosofer/technical-exam-node
-```
+3. **Instala las dependencias**
 
-Dirígete al directorio del proyecto:
+   Asegúrate de tener **pnpm** instalado, si no, instálalo con:
 
-```bash
-  cd technical-exam-node
-```
+   ```bash
+   npm install -g pnpm
+   ```
 
-Instala las dependencias:
+   Luego, instala las dependencias del proyecto:
 
-```bash
-  pnpm install
-```
+   ```bash
+   pnpm install
+   ```
 
-Inicia el servidor:
+4. **Configura las variables de entorno**
 
-```bash
-  pnpm run dev
-```
+   Crea un archivo `.env` en el directorio raíz del proyecto y agrega las siguientes variables:
 
-**Server:** Node, Express, MongoDB + Mongoose
+   ```env
+   JWT_SECRET_KEY=<tu_secreto_jwt>
+   MONGO_CONNECTION_STRING=<tu_cadena_de_conexion_mongo>
+   ```
+
+5. **Inicia el servidor en modo desarrollo**
+
+   ```bash
+   pnpm run dev
+   ```
+
+   El servidor estará corriendo en `http://localhost:3000`.
+   Se uso swagger ui para documentar la API, puedes acceder a http://localhost:3000/api-docs/ para probarla.
+   De igual manera si quieres alguna otra herramienta para probar la API como postman, puedes hacerlo solo ten en cuenta que la url base es:
+   http://localhost:3000/api/v1/
 
 ## Cómo usar la API
 
@@ -130,26 +148,146 @@ Con estos pasos podrás probar y usar los endpoints de la API que requieren aute
 
 ## Endpoints
 
-### POST /api/v1/users
+### 1. **Crear un nuevo usuario**
 
-Crea un nuevo usuario.
+- **Método**: `POST`
+- **Ruta**: `/users`
+- **Cuerpo de la solicitud**:
+  ```json
+  {
+    "name": "nombre del usuario",
+    "email": "correo@ejemplo.com",
+    "password": "contraseña"
+  }
+  ```
+- **Respuesta exitosa**:
+  ```json
+  {
+    "success": true,
+    "message": "Usuario creado exitosamente",
+    "data": {
+      "_id": "id_del_usuario",
+      "name": "nombre",
+      "email": "correo@ejemplo.com",
+      "password": "contraseña_encriptada",
+      "__v": 0
+    }
+  }
+  ```
+- **Respuesta de error**:
+  ```json
+  {
+    "error": {
+      "message": "Error al crear el usuario",
+      "code": "400"
+    }
+  }
+  ```
 
-### GET /api/v1/users
+### 2. **Listar usuarios (paginado)**
 
-Obtiene una lista de usuarios paginada.
+- **Método**: `GET`
+- **Ruta**: `/users?page=0&limit=10`
+- **Parámetros**:
+  - `page`: Número de página (paginación)
+  - `limit`: Número máximo de usuarios por página
+- **Respuesta exitosa**:
+  ```json
+  {
+    "success": true,
+    "data": [
+      {
+        "_id": "id_del_usuario_1",
+        "name": "nombre1",
+        "email": "correo@ejemplo.com",
+        "password": "contraseña_encriptada",
+        "__v": 0
+      },
+      {
+        "_id": "id_del_usuario_2",
+        "name": "nombre2",
+        "email": "correo@ejemplo.com",
+        "password": "contraseña_encriptada",
+        "__v": 0
+      }
+    ],
+    "page": 1,
+    "limit": 10,
+    "total": 100
+  }
+  ```
 
-### GET /api/v1/users/:id
+### 3. **Obtener un usuario por su ID**
 
-Obtiene un usuario específico por su ID.
+- **Método**: `GET`
+- **Ruta**: `/users/:id`
+- **Parámetros**:
+  - `id`: ID del usuario a obtener
+- **Respuesta exitosa**:
+  ```json
+  {
+    "success": true,
+    "data": {
+      "_id": "id_del_usuario",
+      "name": "nombre",
+      "email": "correo@ejemplo.com",
+      "password": "contraseña_encriptada",
+      "__v": 0
+    }
+  }
+  ```
 
-### PUT /api/v1/users/:id
+### 4. **Actualizar un usuario**
 
-Actualiza un usuario existente.
+- **Método**: `PUT`
+- **Ruta**: `/users/:id`
+- **Cuerpo de la solicitud**:
+  ```json
+  {
+    "name": "nuevo_nombre",
+    "email": "nuevo_email@ejemplo.com"
+  }
+  ```
+- **Respuesta exitosa**:
+  ```json
+  {
+    "success": true,
+    "message": "Usuario actualizado exitosamente",
+    "data": {
+      "_id": "id_del_usuario",
+      "name": "nuevo_nombre",
+      "email": "nuevo_email@ejemplo.com",
+      "password": "contraseña_encriptada",
+      "__v": 0
+    }
+  }
+  ```
 
-### DELETE /api/v1/users/:id
+### 5. **Eliminar un usuario**
 
-Elimina un usuario existente.
+- **Método**: `DELETE`
+- **Ruta**: `/users/:id`
+- **Parámetros**:
+  - `id`: ID del usuario a eliminar
+- **Respuesta exitosa**:
+  ```json
+  {
+    "success": true,
+    "message": "Usuario eliminado exitosamente",
+    "data": {
+      "_id": "id_del_usuario",
+      "name": "nombre",
+      "email": "correo@ejemplo.com",
+      "password": "contraseña_encriptada",
+      "__v": 0
+    }
+  }
+  ```
 
-## Consideraciones de Seguridad
+## Seguridad
 
-El proyecto utiliza JWT para la autenticación de los usuarios, por lo que todas las peticiones que requieren acceso a datos sensibles deben llevar un token válido en el encabezado `Authorization: Bearer <token>`.
+El acceso a todos los endpoints está protegido por un **JWT**. Se debe incluir el token en los encabezados de la solicitud de la siguiente manera:
+
+```http
+Authorization: Bearer <tu_token_jwt>
+```
