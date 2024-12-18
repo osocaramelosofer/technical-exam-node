@@ -105,7 +105,100 @@
               }
             }
           }
-        }
+        },
+        "put": {
+            "summary": "Update user information",
+            "security": [
+              {
+                "BearerAuth": []
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "fernando-updated2"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "hdz.fernando8991@hotmail.com-updated2"
+                      },
+                      "id": {
+                        "type": "string",
+                        "example": "6762307e14afd91107693e93"
+                      }
+                    },
+                    "required": ["name", "email", "id"]
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "User updated successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "user updated successfully"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "6762307e14afd91107693e93"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "fernando-updated"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "hdz.fernando8991@hotmail.com-updated"
+                            },
+                            "password": {
+                              "type": "string",
+                              "example": "$2b$10$4zDDW.7OZsgzxcRgoEHW3OSTg8O1Po/lfAYkEjLnLc/aY5kTTFFQC"
+                            },
+                            "__v": {
+                              "type": "integer",
+                              "example": 0
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad request, invalid data"
+              },
+              "401": {
+                "description": "Unauthorized, invalid token"
+              },
+              "404": {
+                "description": "User not found"
+              },
+              "500": {
+                "description": "Internal server error"
+              }
+            }
+          }
+        
       },
      "/api/v1/users/user": {
       "get": {
