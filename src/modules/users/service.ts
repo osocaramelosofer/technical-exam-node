@@ -37,11 +37,21 @@ export const userService = {
     },
     delete: async(id:string):Promise< UserInterface | null> => {
         try {
-            console.log({id})
-            const deletedUser = await User.deleteOne({ _id: id })
-            console.log(deletedUser)
-            return null
+            // check if id is a valid ObjectId
+            if(!mongoose.isValidObjectId(id)){
+                return null
+            }
+
+            const deletedUser = await User.findByIdAndDelete('id').exec()
+            // user not found
+            if(!deletedUser){
+                return null
+            }
+            
+            return deletedUser
         } catch (error) {
+            const message = error instanceof Error ? error.message : error
+            console.error("Error deleting user:",message)
             return null
         }
     }
