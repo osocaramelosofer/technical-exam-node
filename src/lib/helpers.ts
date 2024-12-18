@@ -10,6 +10,6 @@ export const generateToken = (user: UserInterface): string => {
   return jwt.sign(
     { id: user._id, email: user.email },
     SECRET_KEY,
-    { expiresIn: '1 min' }
+    { expiresIn: '15 min' }
   );
 };
