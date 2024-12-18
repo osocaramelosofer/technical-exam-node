@@ -1,11 +1,11 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt'
 import User from '../../models/User'
-import { generateToken } from '../../lib/helpers';
+import { generateToken } from '../../lib/helpers'
 
 
 
 export const authService = {
-  login: async({email, password} : { email: string, password: string}):Promise<any> => {
+  login: async({email, password} : { email: string, password: string}):Promise<string | null> => {
     try {
       const foundUser = await User.findOne({ email })
 
@@ -16,18 +16,16 @@ export const authService = {
       const isMatch = bcrypt.compareSync(password, foundUser.password);
   
       if (isMatch) {
-        // HERE replace the jwt.sign with a method
-        // const token = jwt.sign({ _id: foundUser._id?.toString(), name: foundUser.name }, SECRET_KEY, {
-        //   expiresIn: '2 days',
-        // });
         const token = generateToken(foundUser)
    
-        return { token: token };
+        return token
       } else {
-        throw new Error('Password is not correct');
+        throw new Error('Password is not correct')
       }
     } catch (error) {
-      
+      const message = error instanceof Error ? error.message : error
+      console.error("Something went wrong generating the token:", message)
+      return null
     }
   }
 }
