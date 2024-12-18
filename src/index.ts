@@ -22,7 +22,7 @@ const startServer = async () => {
     app.use('/api/v1/auth', authRouter)
     
     app.listen(port, () => {
-      console.log(`Server is running at http://localhost:${port}`);
+      console.log(`Server is running at http://localhost:${port}/api-docs`);
     });
   } catch (error) {
     console.log(error)

@@ -1,230 +1,155 @@
-# Examen Técnico - Node.js Backend API
+# Examen Tecnico Node
 
-Este proyecto implementa una **API RESTful** utilizando **Node.js**, **Express** y **Mongoose** para gestionar usuarios, como parte de un examen técnico para el puesto de **Full Stack Developer**. El objetivo es demostrar el manejo de tecnologías como **Node.js**, **Express**, **MongoDB** y la arquitectura de aplicaciones backend.
+Este examen técnico hecho con Node, Express y Mongoose realiza una API RESTful para resolver el examen técnico para el puesto de Full Stack Developer, enfocado en el back-end con Node.js.
 
-## Descripción
+La aplicación pretende demostrar los conocimientos en tecnologías como Node, Express, MongoDB y la arquitectura/experiencia que el candidato tiene en el stack mencionado.
 
-El examen consiste en crear una API que permita gestionar un listado de usuarios con las siguientes operaciones CRUD (Crear, Leer, Actualizar, Eliminar):
+## Authors
 
-- **Crear un usuario**
-- **Listar usuarios (paginado)**
-- **Obtener un usuario específico por su ID**
-- **Actualizar un usuario existente (nombre y correo)**
-- **Eliminar un usuario**
+- [@elferras](https://github.com/osocaramelosofer)
 
-Además, se implementa **autenticación JWT** para acceder a los endpoints, y se utiliza **MongoDB** para almacenar los datos de los usuarios.
+## Documentación
 
-## Funcionalidades
+### Variables de Entorno
 
-- **Crear un nuevo usuario** (POST /users)
-- **Listar usuarios** con paginación (GET /users)
-- **Obtener un usuario por su ID** (GET /users/:id)
-- **Actualizar un usuario** (PUT /users/:id)
-- **Eliminar un usuario** (DELETE /users/:id)
-- **Autenticación JWT** para acceso a los servicios
+Para ejecutar este proyecto, deberás agregar las siguientes variables de entorno a tu archivo .env:
 
-## Instalación
+- `JWT_SECRET_KEY`
+- `MONGO_CONNECTION_STRING`
 
-### Requisitos
+### Features
 
-- **Node.js v18+**
-- **pnpm** como gestor de paquetes
+- Crear un nuevo usuario
+- Listar usuarios
+- Obtener un usuario específico por su ID
+- Actualizar el nombre y correo de un usuario existente
+- Eliminar un usuario por su ID
+- Generar un JWT para acceder al CRUD
 
-### Pasos para instalar y correr el proyecto
+### Instalación
 
-1. **Clona el repositorio**
+Asegúrate de tener la versión de Node `v18`.
 
-   ```bash
-   git clone https://github.com/osocaramelosofer/technical-exam-node
-   ```
+Instala el proyecto con pnpm.
 
-2. **Accede al directorio del proyecto**
+### Run Locally
 
-   ```bash
-   cd technical-exam-node
-   ```
+Clona el proyecto:
 
-3. **Instala las dependencias**
+```bash
+  git clone https://github.com/osocaramelosofer/technical-exam-node
+```
 
-   Asegúrate de tener **pnpm** instalado, si no, instálalo con:
+Dirígete al directorio del proyecto:
 
-   ```bash
-   npm install -g pnpm
-   ```
+```bash
+  cd technical-exam-node
+```
 
-   Luego, instala las dependencias del proyecto:
+Instala las dependencias:
 
-   ```bash
-   pnpm install
-   ```
+```bash
+  pnpm install
+```
 
-4. **Configura las variables de entorno**
+Inicia el servidor:
 
-   Crea un archivo `.env` en el directorio raíz del proyecto y agrega las siguientes variables:
+```bash
+  pnpm run dev
+```
 
-   ```env
-   JWT_SECRET_KEY=<tu_secreto_jwt>
-   MONGO_CONNECTION_STRING=<tu_cadena_de_conexion_mongo>
-   ```
+**Server:** Node, Express, MongoDB + Mongoose
 
-5. **Inicia el servidor en modo desarrollo**
+## Cómo usar la API
 
-   ```bash
-   pnpm run dev
-   ```
+Para interactuar con la API, debes tener en cuenta que la mayoría de los endpoints requieren autenticación mediante un **token JWT**. A continuación, te explicamos cómo obtener el token y cómo utilizarlo para hacer solicitudes a la API.
 
-   El servidor estará corriendo en `http://localhost:3000`.
+### 1. Crear un Usuario
+
+Para empezar, necesitarás crear un usuario. Puedes hacerlo utilizando el siguiente endpoint:
+
+**POST** `/api/v1/users`
+
+Envía una solicitud **POST** a la URL `http://localhost:3000/api/v1/users` con un cuerpo similar al siguiente para crear un nuevo usuario:
+
+```json
+{
+  "name": "user4",
+  "email": "user4@hotmail.com",
+  "password": "user4"
+}
+```
+
+### 2. Obtener el Token de Autenticación
+
+Una vez que hayas creado el usuario, puedes obtener un **token JWT** utilizando el endpoint de autenticación. Utiliza el siguiente endpoint:
+
+**POST** `/api/v1/auth`
+
+Envía una solicitud **POST** a la URL `http://localhost:3000/api/v1/auth` con un cuerpo como este:
+
+```json
+{
+  "email": "user4@hotmail.com",
+  "password": "user4"
+}
+```
+
+La respuesta será algo como esto:
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NjJlYWI1ODgxNWZhMTdhN2NmODA0MyIsImVtYWlsIjoidXNlcjRAaG90bWFpbC5jb20iLCJpYXQiOjE3MzQ1NDQ0NzIsImV4cCI6MTczNDU0NTk3Mn0.jXNh9KMLZsbQdq0l82Ydr6HxWeb75KLi0wPl-ByF0Us"
+}
+```
+
+Este **token** es válido por **25 minutos**.
+
+### 3. Usar el Token en las Solicitudes
+
+Una vez que tengas el **token JWT**, puedes usarlo para autenticar tus solicitudes a la API. Solo necesitas agregar el token en los encabezados de tus solicitudes de la siguiente manera:
+
+```http
+Authorization: Bearer <tu_token_aqui>
+```
+
+Por ejemplo, para obtener los detalles de un usuario específico, realiza una solicitud **GET** a la URL `http://localhost:3000/api/v1/users/:id` y agrega el token en el encabezado:
+
+```http
+GET /api/v1/users/6762307e14afd91107693e93
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NjJlYWI1ODgxNWZhMTdhN2NmODA0MyIsImVtYWlsIjoidXNlcjRAaG90bWFpbC5jb20iLCJpYXQiOjE3MzQ1NDQ0NzIsImV4cCI6MTczNDU0NTk3Mn0.jXNh9KMLZsbQdq0l82Ydr6HxWeb75KLi0wPl-ByF0Us
+```
+
+### Consideraciones
+
+- El **token** tiene una duración de **25 minutos**. Si el token expira, tendrás que volver a autenticarte para obtener uno nuevo.
+- En caso de que el token no sea válido o haya expirado, recibirás una respuesta de error con el código de estado `401 Unauthorized`.
+- La autenticación se realiza utilizando el esquema **Bearer Token** en el encabezado de las solicitudes.
+
+Con estos pasos podrás probar y usar los endpoints de la API que requieren autenticación. Asegúrate de incluir siempre el **token** en las solicitudes a los endpoints que requieren acceso protegido.
 
 ## Endpoints
 
-### 1. **Crear un nuevo usuario**
+### POST /api/v1/users
 
-- **Método**: `POST`
-- **Ruta**: `/users`
-- **Cuerpo de la solicitud**:
-  ```json
-  {
-    "name": "nombre del usuario",
-    "email": "correo@ejemplo.com",
-    "password": "contraseña"
-  }
-  ```
-- **Respuesta exitosa**:
-  ```json
-  {
-    "success": true,
-    "message": "Usuario creado exitosamente",
-    "data": {
-      "_id": "id_del_usuario",
-      "name": "nombre",
-      "email": "correo@ejemplo.com",
-      "password": "contraseña_encriptada",
-      "__v": 0
-    }
-  }
-  ```
-- **Respuesta de error**:
-  ```json
-  {
-    "error": {
-      "message": "Error al crear el usuario",
-      "code": "400"
-    }
-  }
-  ```
+Crea un nuevo usuario.
 
-### 2. **Listar usuarios (paginado)**
+### GET /api/v1/users
 
-- **Método**: `GET`
-- **Ruta**: `/users?page=0&limit=10`
-- **Parámetros**:
-  - `page`: Número de página (paginación)
-  - `limit`: Número máximo de usuarios por página
-- **Respuesta exitosa**:
-  ```json
-  {
-    "success": true,
-    "data": [
-      {
-        "_id": "id_del_usuario_1",
-        "name": "nombre1",
-        "email": "correo@ejemplo.com",
-        "password": "contraseña_encriptada",
-        "__v": 0
-      },
-      {
-        "_id": "id_del_usuario_2",
-        "name": "nombre2",
-        "email": "correo@ejemplo.com",
-        "password": "contraseña_encriptada",
-        "__v": 0
-      }
-    ],
-    "page": 1,
-    "limit": 10,
-    "total": 100
-  }
-  ```
+Obtiene una lista de usuarios paginada.
 
-### 3. **Obtener un usuario por su ID**
+### GET /api/v1/users/:id
 
-- **Método**: `GET`
-- **Ruta**: `/users/:id`
-- **Parámetros**:
-  - `id`: ID del usuario a obtener
-- **Respuesta exitosa**:
-  ```json
-  {
-    "success": true,
-    "data": {
-      "_id": "id_del_usuario",
-      "name": "nombre",
-      "email": "correo@ejemplo.com",
-      "password": "contraseña_encriptada",
-      "__v": 0
-    }
-  }
-  ```
+Obtiene un usuario específico por su ID.
 
-### 4. **Actualizar un usuario**
+### PUT /api/v1/users/:id
 
-- **Método**: `PUT`
-- **Ruta**: `/users/:id`
-- **Cuerpo de la solicitud**:
-  ```json
-  {
-    "name": "nuevo_nombre",
-    "email": "nuevo_email@ejemplo.com"
-  }
-  ```
-- **Respuesta exitosa**:
-  ```json
-  {
-    "success": true,
-    "message": "Usuario actualizado exitosamente",
-    "data": {
-      "_id": "id_del_usuario",
-      "name": "nuevo_nombre",
-      "email": "nuevo_email@ejemplo.com",
-      "password": "contraseña_encriptada",
-      "__v": 0
-    }
-  }
-  ```
+Actualiza un usuario existente.
 
-### 5. **Eliminar un usuario**
+### DELETE /api/v1/users/:id
 
-- **Método**: `DELETE`
-- **Ruta**: `/users/:id`
-- **Parámetros**:
-  - `id`: ID del usuario a eliminar
-- **Respuesta exitosa**:
-  ```json
-  {
-    "success": true,
-    "message": "Usuario eliminado exitosamente",
-    "data": {
-      "_id": "id_del_usuario",
-      "name": "nombre",
-      "email": "correo@ejemplo.com",
-      "password": "contraseña_encriptada",
-      "__v": 0
-    }
-  }
-  ```
+Elimina un usuario existente.
 
-## Seguridad
+## Consideraciones de Seguridad
 
-El acceso a todos los endpoints está protegido por un **JWT**. Se debe incluir el token en los encabezados de la solicitud de la siguiente manera:
-
-```http
-Authorization: Bearer <tu_token_jwt>
-```
-
-## Tests
-
-Si deseas ejecutar pruebas, puedes configurar un entorno de pruebas y utilizar herramientas como **Jest** o **Mocha** para testear los endpoints y la lógica del backend.
-
-## Contribuciones
-
-Si deseas contribuir a este proyecto, por favor realiza un **fork** y crea un **pull request** con las mejoras. Asegúrate de seguir las mejores prácticas de desarrollo y de documentar los cambios realizados.
+El proyecto utiliza JWT para la autenticación de los usuarios, por lo que todas las peticiones que requieren acceso a datos sensibles deben llevar un token válido en el encabezado `Authorization: Bearer <token>`.
