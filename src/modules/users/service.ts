@@ -54,5 +54,15 @@ export const userService = {
             console.error("Error deleting user:",message)
             return null
         }
+    },
+    update: async({_id, name, email}:Pick<UserInterface, 'name'| 'email' | '_id'>): Promise<UserInterface | null> => {
+        try {
+            const updatedUser = await User.findByIdAndUpdate(_id, {name, email}).exec()
+            console.log({updatedUser})
+            return updatedUser
+        } catch (error) {
+            console.error(error)
+            return null   
+        }
     }
 }

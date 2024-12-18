@@ -55,8 +55,19 @@ export async function deleteUser(req:Request, res:Response){
 }
 export async function updateUser(req:Request, res:Response){
     try {
-        
+        const { id, name, email } = req.body
+        const updatedUser = await userService.update({_id:id, name, email})
+        res.status(200).json({
+            success: true,
+            message: 'user updated successfully',
+            data: updatedUser
+        })
     } catch (error) {
-        
+        res.status(500).json({
+            error:{
+                message: "Something went wrong",
+                code: 'Internal error'
+            }
+        })
     }
 }
