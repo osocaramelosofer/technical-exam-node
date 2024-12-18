@@ -161,7 +161,7 @@ Con estos pasos podrás probar y usar los endpoints de la API que requieren aute
 ### 1. **Crear un nuevo usuario**
 
 - **Método**: `POST`
-- **Ruta**: `/users`
+- **Ruta**: `/api/v1/users`
 - **Cuerpo de la solicitud**:
   ```json
   {
@@ -197,7 +197,7 @@ Con estos pasos podrás probar y usar los endpoints de la API que requieren aute
 ### 2. **Listar usuarios (paginado)**
 
 - **Método**: `GET`
-- **Ruta**: `/users?page=0&limit=10`
+- **Ruta**: `/api/v1/users?page=0&limit=10`
 - **Parámetros**:
   - `page`: Número de página (paginación)
   - `limit`: Número máximo de usuarios por página
@@ -220,17 +220,14 @@ Con estos pasos podrás probar y usar los endpoints de la API que requieren aute
         "password": "contraseña_encriptada",
         "__v": 0
       }
-    ],
-    "page": 1,
-    "limit": 10,
-    "total": 100
+    ]
   }
   ```
 
 ### 3. **Obtener un usuario por su ID**
 
 - **Método**: `GET`
-- **Ruta**: `/users/:id`
+- **Ruta**: `/api/v1/users?id={id}`
 - **Parámetros**:
   - `id`: ID del usuario a obtener
 - **Respuesta exitosa**:
@@ -250,7 +247,7 @@ Con estos pasos podrás probar y usar los endpoints de la API que requieren aute
 ### 4. **Actualizar un usuario**
 
 - **Método**: `PUT`
-- **Ruta**: `/users/:id`
+- **Ruta**: `/api/v1/users`
 - **Cuerpo de la solicitud**:
   ```json
   {
@@ -276,7 +273,7 @@ Con estos pasos podrás probar y usar los endpoints de la API que requieren aute
 ### 5. **Eliminar un usuario**
 
 - **Método**: `DELETE`
-- **Ruta**: `/users/:id`
+- **Ruta**: `/api/v1/users?id={id}`
 - **Parámetros**:
   - `id`: ID del usuario a eliminar
 - **Respuesta exitosa**:
