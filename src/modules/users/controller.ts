@@ -60,11 +60,19 @@ export async function updateUser(req:Request, res:Response){
     try {
         const { id, name, email } = req.body
         const updatedUser = await userService.update({_id:id, name, email})
-        res.status(200).json({
-            success: true,
-            message: 'user updated successfully',
-            data: updatedUser
-        })
+
+        if (!updatedUser) {
+            res.status(404).json({
+                success: false,
+                message: 'User not found',
+            });
+        }else {
+            res.status(200).json({
+                success: true,
+                message: 'user updated successfully',
+                data: {name, email}
+            })
+        }
     } catch (error) {
         res.status(500).json({
             error:{
